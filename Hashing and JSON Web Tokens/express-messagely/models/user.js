@@ -28,20 +28,17 @@ class User {
 	/** Authenticate: is this username/password valid? Returns boolean. */
 
 	static async authenticate(username, password) {
-		try {
-			const result = await db.query(
-				`
+		const result = await db.query(
+			`
         SELECT password FROM users
         WHERE username=$1
       `,
-				[username]
-			);
-			if (result.rowCount === 0) throw new ExpressError("Must include username and password", 401);
-			const user = result.rows[0];
-			return bcrypt.compare(password, user.password);
-		} catch (err) {
-			return err;
-		}
+			[username]
+		);
+
+		if (result.rowCount === 0) throw new ExpressError("Must include username and password", 400);
+		const user = result.rows[0];
+		return bcrypt.compare(password, user.password);
 	}
 
 	/** Update last_login_at for user */

@@ -12,8 +12,8 @@ const ExpressError = require("../expressError");
  **/
 router.post("/login", async (req, res, next) => {
 	try {
-		const authenticated = await User.authenticate(req.body);
-		if (!authenticated) throw new ExpressError("Invalid username/password", 400);
+		const authenticated = await User.authenticate(req.body.username, req.body.password);
+		if (!authenticated) return next(new ExpressError("Invalid username/password", 400));
 		let token = jwt.sign({ username: req.body.username }, SECRET_KEY);
 
 		User.updateLoginTimestamp();

@@ -19,25 +19,25 @@ describe("Auth Routes Test", function () {
 		});
 	});
 
-	//   /** POST /auth/register => token  */
+	/** POST /auth/register => token  */
 
-	// describe("POST /auth/register", function () {
-	// 	test("can register", async function () {
-	// 		let response = await request(app).post("/auth/register").send({
-	// 			username: "bob",
-	// 			password: "secret",
-	// 			first_name: "Bob",
-	// 			last_name: "Smith",
-	// 			phone: "+14150000000"
-	// 		});
-	// 		let token = response.body.token;
+	describe("POST /auth/register", function () {
+		test("can register", async function () {
+			let response = await request(app).post("/auth/register").send({
+				username: "bob",
+				password: "secret",
+				first_name: "Bob",
+				last_name: "Smith",
+				phone: "+14150000000"
+			});
+			let token = response.body.token;
 
-	// 		expect(jwt.decode(token)).toEqual({
-	// 			username: "bob",
-	// 			iat: expect.any(Number)
-	// 		});
-	// 	});
-	// });
+			expect(jwt.decode(token)).toEqual({
+				username: "bob",
+				iat: expect.any(Number)
+			});
+		});
+	});
 
 	/** POST /auth/login => token  */
 
@@ -57,7 +57,7 @@ describe("Auth Routes Test", function () {
 			expect(response.statusCode).toEqual(400);
 		});
 
-		test("won't login w/wrong password", async function () {
+		test("won't login w/wrong username", async function () {
 			let response = await request(app).post("/auth/login").send({ username: "not-user", password: "password" });
 			expect(response.statusCode).toEqual(400);
 		});
