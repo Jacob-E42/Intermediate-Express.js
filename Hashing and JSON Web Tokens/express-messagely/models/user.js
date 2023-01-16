@@ -38,6 +38,7 @@ class User {
 
 		if (result.rowCount === 0) throw new ExpressError("Must include username and password", 400);
 		const user = result.rows[0];
+		console.log(user);
 		return bcrypt.compare(password, user.password);
 	}
 
