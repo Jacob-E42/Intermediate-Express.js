@@ -43,8 +43,8 @@ router.post("/", ensureLoggedIn, async (req, res, next) => {
  *
  **/
 router.post("/:id/read", ensureCorrectUser, async (req, res, next) => {
-	const message = await Message.create(req.body.to_username, req.body.body);
-	if (message.rows.length == 0) return next(new ExpressError("Message not created!", 400));
+	const message = await Message.markRead(req.params.id);
+	if (message.rows.length == 0) return next(new ExpressError("Message not read!", 400));
 	return res.json({ message });
 });
 

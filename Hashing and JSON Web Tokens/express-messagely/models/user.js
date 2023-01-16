@@ -28,6 +28,7 @@ class User {
 	/** Authenticate: is this username/password valid? Returns boolean. */
 
 	static async authenticate(username, password) {
+		if (!username || !password) throw new ExpressError("Must include username and password", 400);
 		const result = await db.query(
 			`
         SELECT password FROM users
@@ -36,9 +37,8 @@ class User {
 			[username]
 		);
 
-		if (result.rowCount === 0) throw new ExpressError("Must include username and password", 400);
+		if (result.rowCount === 0) throw new ExpressError("Password not found", 404);
 		const user = result.rows[0];
-		console.log(user);
 		return bcrypt.compare(password, user.password);
 	}
 
