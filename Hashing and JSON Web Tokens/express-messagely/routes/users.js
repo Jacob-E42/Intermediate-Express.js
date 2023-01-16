@@ -25,6 +25,15 @@ router.get("/", ensureLoggedIn, async (req, res, next) => {
  * => {user: {username, first_name, last_name, phone, join_at, last_login_at}}
  *
  **/
+router.get("/:username", ensureLoggedIn, async (req, res, next) => {
+	try {
+		const user = await User.get(req.params.username);
+		if (user.length === 0) return next(new ExpressError("User not found!", 404));
+		return res.json({ user });
+	} catch (err) {
+		return next(err);
+	}
+});
 
 /** GET /:username/to - get messages to user
  *
