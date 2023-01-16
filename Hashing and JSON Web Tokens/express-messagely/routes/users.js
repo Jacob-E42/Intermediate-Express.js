@@ -63,9 +63,9 @@ router.get("/:username/to", ensureCorrectUser, async (req, res, next) => {
  *                 to_user: {username, first_name, last_name, phone}}, ...]}
  *
  **/
-router.get("/:username/to", ensureCorrectUser, async (req, res, next) => {
+router.get("/:username/from", ensureCorrectUser, async (req, res, next) => {
 	try {
-		const user_messages = await User.messagesTo(req.params.username);
+		const user_messages = await User.messagesFrom(req.params.username);
 		if (user_messages.length === 0) return next(new ExpressError("Messages not found!", 404));
 		return res.json({ user_messages });
 	} catch (err) {
