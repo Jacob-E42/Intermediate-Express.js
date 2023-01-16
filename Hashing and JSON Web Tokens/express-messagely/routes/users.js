@@ -14,7 +14,7 @@ router.get("/", ensureLoggedIn, async (req, res, next) => {
 	try {
 		const users = await User.all();
 		if (users.length === 0) return next(new ExpressError("No users found!", 404));
-		return { users };
+		return res.json({ users });
 	} catch (err) {
 		return next(err);
 	}
